@@ -5,17 +5,16 @@ R package to transform a dataframe into tidy data structure and plot a graph of 
 
 ## Installation
 
-Clone this repository and extract into your computer maintaining the same file structure.  Open TidytextPlot.Rproj in Rustudio.
+Clone this repository and extract into your computer maintaining the same file structure.  
+```https://github.com/todowede/TidytextPlot````
+
+Open TidytextPlot.Rproj in Rustudio.
 
 Then ```devtools``` is needed to load your package using the code:
 ```
 library(devtools)
 load_all()
 install()
-```
-
-```
-git clone https://github.com/beyondcode/github-now.git
 ```
 
 Next, copy your `.env.example` file as `.env` and configure your GitHub username.
