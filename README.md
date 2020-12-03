@@ -21,7 +21,7 @@ GITHUB_PROFILE=your-github-username
 
 You can modify your personal profile, by editing the `resources/views/profile.blade.php` file.
 
-To see a preview of how your profile will look like on GitHub, simply visit the application URL. This will render your markdown file in the browser.
+visit the application URL. This will render your markdown file in the browser.
 
 ## Pushing your profile to GitHub
 
