@@ -6,7 +6,7 @@ R package to transform a dataframe into tidy data structure and plot a graph of 
 ## Installation
 
 Clone this repository and extract into your computer maintaining the same file structure.  
-```https://github.com/todowede/TidytextPlot````
+```https://github.com/todowede/TidytextPlot```
 
 Open TidytextPlot.Rproj in Rustudio.
 
