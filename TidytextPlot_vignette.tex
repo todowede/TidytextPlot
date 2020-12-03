@@ -1,0 +1,861 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={TidytextPlot\_vignette},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{TidytextPlot\_vignette}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
+This vignette describes the content and use of the
+\textbf{\emph{TidytextPlot}} package to transform a dataframe into tidy
+data structure and plot a graph of change in proportion of given word(s)
+over time, where time is indicated by turn. A cleaned version of
+dialogues for the three main presidential debates in the 2012 US
+presidential debate is provided for demonstration. The R package consist
+of two functions; \texttt{createTidyData} and \texttt{plotDebateWords}.
+The \texttt{createTidyData} fuction, transforms input dataframe into a
+tidy text data structure, while function \texttt{plotDebateWords}, calls
+the \texttt{createTidyData} function, and generates a ggplot2 graphics.
+The vignette also illustrate the use of \texttt{bind\_tf\_idf} function
+from the \texttt{tidytext} package to calculate the \textbf{\emph{tf-idf
+indexes}}, which is the product of the \textbf{\emph{term frequency
+(tf)}} and the \textbf{\emph{inverse document frequency (idf)}}. The
+vignette also presents and describes a R code that test for
+\textbf{\emph{Zipf's law}} in the debate data.\\
+
+\hypertarget{installation-and-usage}{%
+\subsubsection{Installation and Usage}\label{installation-and-usage}}
+
+Step 1: Install package\\
+\textbf{\emph{install.packages(``path/to/TidytextPlot\_1.0.0.11.tar.gz'',
+repos = NULL)}}
+
+Step 2: Load package\\
+\textbf{\emph{library(TidytextPlot)}}
+
+Step 3: Load required dependencies: ggplot2, dplyr, tidytext
+
+Step 4: Create plot using included debateData\\
+\textbf{\emph{plotDebateWords(c(``china'',``people'',``military'',``iran'',``energy''),debateData)}}
+
+or
+
+\textbf{\emph{plotDebateWords(c(``china'',``people'',``military'',``iran'',``energy''))}}\\
+(no need to state second argument if you are using the debateData
+provided with the package)
+
+Optional Step: To only transform input data to tidy text data structure,
+use \texttt{createTidyData} function;e.g.~\\
+\textbf{\emph{tidyoutput \textless- createTidyData(debateData)}}
+
+~
+
+\hypertarget{the-dataset}{%
+\subsubsection{The dataset}\label{the-dataset}}
+
+The provided data ``debateData'' is a dataframe containing a cleaned
+version of the three main predidential debates for the 2012 US election.
+The variables are as follows:\\
+* person: the speaker. Obama and Romney were the candidates, Crowley,
+Lehrer,Schieffer were the moderators and ``question'' indicates
+questions raised by the public.\\
+* dialogue: the words spoken by each person.\\
+* turn: progressive number indicating the turn of talk.\\
+
+\hypertarget{r-function-showing-change-of-word-frequency-over-time}{%
+\subsubsection{R Function Showing Change of Word Frequency Over
+Time}\label{r-function-showing-change-of-word-frequency-over-time}}
+
+Function \texttt{createTidyData} reads in the data and transform it to a
+tidytext (Wickham,H 2014) data structure.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# createTidyData function takes as argument, an input dataframe }
+\CommentTok{# with three columns, namely: 'person', 'dialogue' and 'turn'.}
+\NormalTok{createTidyData <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(input_DF) \{}
+\CommentTok{#}
+\CommentTok{# Test that the input data is in the right format, and in particular, }
+\CommentTok{# the columns names are; 'person', 'dialogue' and 'turn'. }
+\CommentTok{#}
+  \ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.data.frame}\NormalTok{(input_DF) }\OperatorTok{||}\StringTok{ }\KeywordTok{any}\NormalTok{(}\KeywordTok{names}\NormalTok{(input_DF) }\OperatorTok{!=}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'person'}\NormalTok{, }\StringTok{'dialogue'}\NormalTok{, }\StringTok{'turn'}\NormalTok{))) }
+\NormalTok{    \{}
+    \KeywordTok{stop}\NormalTok{(}\StringTok{"input_DF must be a data.frame with columns 'person','dialogue' and }
+\StringTok{         'turn' to continue"}\NormalTok{)}
+\NormalTok{  \}}
+\CommentTok{#}
+\CommentTok{# The dataframe can now be transformed into a tidy data. This is done by tokenizing }
+\CommentTok{# the texts under the dialogue column using the unnest_tokens function in the tidytext }
+\CommentTok{# package. This process creates the tokenized text under the new column "word".}
+  \KeywordTok{unnest_tokens}\NormalTok{(input_DF, word, dialogue) }\OperatorTok{%>%}
+\CommentTok{# Remove "stop words" with the anti_join function in dplyr.}
+\StringTok{  }\KeywordTok{anti_join}\NormalTok{(stop_words) }\OperatorTok{%>%}
+\CommentTok{#}
+\CommentTok{# Calculate the proportion of word for each turn using tools from dplyr package}
+\CommentTok{#}
+\StringTok{  }\KeywordTok{count}\NormalTok{(turn,word) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(turn) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{p=}\NormalTok{n}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(n))}
+\CommentTok{#}
+\CommentTok{# End of the function.It returns the turn, the tokenized word, word count and the }
+\CommentTok{# proportion of words within each turn. }
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+\textbf{Function test 1}: Let's test our function on the debateData
+included in the package
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test1 <-}\StringTok{ }\KeywordTok{createTidyData}\NormalTok{(debateData)}
+\end{Highlighting}
+\end{Shaded}
+
+View the first few lines of the result
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test1 }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12,201 x 4
+## # Groups:   turn [2,657]
+##     turn word             n     p
+##    <dbl> <chr>        <int> <dbl>
+##  1     1 care             1 0.2  
+##  2     1 health           1 0.2  
+##  3     1 moment           1 0.2  
+##  4     1 specifically     1 0.2  
+##  5     1 talk             1 0.2  
+##  6     2 governor         1 0.25 
+##  7     2 support          1 0.25 
+##  8     2 system           1 0.25 
+##  9     2 voucher          1 0.25 
+## 10     3 change           1 0.167
+## # ... with 12,191 more rows
+\end{verbatim}
+
+~
+
+\textbf{Function test 2}: We also want to test our function on a
+fictitious dataset. So, let's generate a fictitious dataframe having the
+required column names.
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fict_df<-}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{person=}\KeywordTok{c}\NormalTok{(}\StringTok{"John"}\NormalTok{,}\StringTok{"Todd"}\NormalTok{,}\StringTok{"Texas"}\NormalTok{,}\StringTok{"Rama"}\NormalTok{),}
+\DataTypeTok{dialogue=}\KeywordTok{c}\NormalTok{(}\StringTok{"We gather here"}\NormalTok{, }\StringTok{"meet basic needs"}\NormalTok{,}\StringTok{"people of this nation"}\NormalTok{, }
+\StringTok{"focus on implementation"}\NormalTok{),}
+\DataTypeTok{turn=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{),}
+\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Run the function test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test2 <-}\StringTok{ }\KeywordTok{createTidyData}\NormalTok{(fict_df)}
+\end{Highlighting}
+\end{Shaded}
+
+View the first few lines of the output
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 4
+## # Groups:   turn [4]
+##    turn word               n     p
+##   <dbl> <chr>          <int> <dbl>
+## 1     1 gather             1   1  
+## 2     2 basic              1   0.5
+## 3     2 meet               1   0.5
+## 4     3 nation             1   0.5
+## 5     3 people             1   0.5
+## 6     4 focus              1   0.5
+## 7     4 implementation     1   0.5
+\end{verbatim}
+
+~
+
+Good, the \texttt{createTidyData} function work well on the provided
+data and a fictitious data.
+
+~
+
+Now to define the \texttt{plotDebateWords} function. This function calls
+the \texttt{createTidyData} function, and produce a ggplot2 graphics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# The plotDebateWords function takes two inputs as argument. The first }
+\CommentTok{# argument "word" is set to NULL as default - so  that during the function call, the }
+\CommentTok{# user can specify the word or words required to plot. The second argument is set to }
+\CommentTok{# the provided debateData as default. The second argument is however "optional". If the }
+\CommentTok{# debate data included in this package is used, the second argument is not required. }
+\CommentTok{# However if user is using own data, the second argument is required.}
+\CommentTok{#}
+\NormalTok{plotDebateWords <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(}\DataTypeTok{word=}\OtherTok{NULL}\NormalTok{,}\DataTypeTok{data=}\NormalTok{debateData) \{}
+\CommentTok{#}
+\CommentTok{# Call "createTidyData" function to transform the input data (second argument of }
+\CommentTok{# our function) into tidytext data structure.}
+\CommentTok{#}
+\NormalTok{tidyData <-}\KeywordTok{createTidyData}\NormalTok{(data)}
+\CommentTok{#}
+\CommentTok{# The next two lines check if the first argument is set to null, and if not null, it }
+\CommentTok{# retrieve from the data, a subset given by the non-null argument. With %in%, we can use }
+\CommentTok{# as many words as argument as required.}
+\CommentTok{#}
+  \ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{is.null}\NormalTok{(word)) \{}
+\NormalTok{    tidyData<-tidyData[tidyData}\OperatorTok{$}\NormalTok{word }\OperatorTok{%in%}\StringTok{ }\NormalTok{word,]}
+\NormalTok{  \}}
+\CommentTok{#}
+\CommentTok{# Here we plot the data using ggplot}
+\CommentTok{#}
+\NormalTok{plot<-tidyData }\OperatorTok{%>%}
+\StringTok{    }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(turn,p,}\DataTypeTok{colour=}\NormalTok{word)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_smooth}\NormalTok{() }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom_vline}\NormalTok{(}\DataTypeTok{xintercept =} \KeywordTok{c}\NormalTok{(}\DecValTok{541}\NormalTok{,}\DecValTok{1798}\NormalTok{), }\CommentTok{# Line specifying end of first and }
+               \CommentTok{# second debate.}
+               \DataTypeTok{linetype=}\StringTok{"longdash"}\NormalTok{,}
+               \DataTypeTok{colour=}\StringTok{"black"}\NormalTok{,}
+               \DataTypeTok{size=}\FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{word, }\DataTypeTok{scales=}\StringTok{"free_y"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{scale_y_continuous}\NormalTok{(}\DataTypeTok{labels=}\NormalTok{scales}\OperatorTok{::}\KeywordTok{percent_format}\NormalTok{()) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Debate turn number"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{ylab}\NormalTok{(}\StringTok{"Percentage of words in presidential debate"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Change of Word Frequency in the 2012 Presidential Debates Over Time"}\NormalTok{) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position =} \StringTok{"none"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{), }
+        \DataTypeTok{axis.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{),}
+        \DataTypeTok{title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{10}\NormalTok{))}
+\CommentTok{#}
+\CommentTok{# End of function. It generate a ggplot graphic showing change in proportion of }
+\CommentTok{# given words over time. The words are provided as the first argument.}
+\KeywordTok{return}\NormalTok{(plot)}
+\NormalTok{\}}
+\CommentTok{#}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+\textbf{Function test 3}: We can now test the second function using the
+provided debateData
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plotDebateWords}\NormalTok{(}\StringTok{"people"}\NormalTok{,debateData)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-8-1} \end{center}
+
+~
+
+\textbf{Function test 4}:As stated however, since we are using the
+provided data, we do not need to use the second argument. So we can do,
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plotDebateWords}\NormalTok{(}\StringTok{"people"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-9-1} \end{center}
+
+~
+
+\textbf{Function test 5}:Test with more than one word with provided
+data.
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plotDebateWords}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"people"}\NormalTok{,}\StringTok{"china"}\NormalTok{,}\StringTok{"military"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-10-1} \end{center}
+
+~
+
+\textbf{Function test 6}: We now test the second function on the
+fictitious data created in page 3. Note that we have to state second
+argument because we are using a different data.
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plotDebateWords}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"gather"}\NormalTok{,}\StringTok{"focus"}\NormalTok{,}\StringTok{"people"}\NormalTok{),fict_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-11-1} \end{center}
+
+~
+
+\hypertarget{discussion-on-2012-us-presidential-debate}{%
+\subsubsection{Discussion on 2012 US presidential
+debate}\label{discussion-on-2012-us-presidential-debate}}
+
+Let's look at the change in frequency of the following words (``jobs'',
+``military'', ``medicare'', ``energy'', ``insurance'', ``china'') over
+the three main debates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plotDebateWords}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"jobs"}\NormalTok{, }\StringTok{"military"}\NormalTok{, }\StringTok{"medicare"}\NormalTok{, }\StringTok{"energy"}\NormalTok{, }\StringTok{"insurance"}\NormalTok{, }\StringTok{"china"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-12-1} \end{center}
+
+~
+
+Just a brief explanation of above graph.
+
+~
+
+\textbf{\emph{First Debate}} Based on the above graph, and considering
+only the six words (jobs, military, medicare, energy, insurance, china)
+we have selected, we can see that the first debate focused more on
+health related dialogues. Insurance (health insurance) and medicare (aka
+Obamacare) occupied the first segment (before the first dash line) of
+our graph. Dialogues relating to China on the other hand, seems not to
+be discussed at all. Towards the end of the first debate however, we see
+brief debate on military issues.\\
+
+~
+
+\textbf{\emph{Second Debate}} Debate on China related issues occurred in
+the second debate with very high interest towards the end of the second
+debate (second dash line). It can also be seen that energy issues were
+debated at the start of the second debate.
+
+~
+
+\textbf{\emph{Third Debate}} Military affairs dominated the third debate
+while health issues were completely avoided. China was also discussed
+later in the third debate. All though the three debates however, jobs
+related dialogues were debated.
+
+\hypertarget{the-tf-idf-index}{%
+\subsubsection{The tf-idf index}\label{the-tf-idf-index}}
+
+The \textbf{\emph{tf-idf}} index computes the frequency of a term
+adjusted for how rarely it is used. It is calculated as the product of
+the term frequency (\textbf{tf}) and the inverse document frequency
+(\textbf{idf} ):
+
+\[tf-idf = tf \times idf.\]
+
+\begin{itemize}
+\item
+  The term frequency (\textbf{tf} ) identifies how frequently a word
+  occurs in a document.
+\item
+  The inverse document frequency (\textbf{idf} ) identify the important
+  words by decreasing the weight for commonly used words and increasing
+  the weight for words that are not used very much in a collection of
+  documents. It is defined as:
+\end{itemize}
+
+\[
+idf = \log
+(\frac{N}{n_t})\] where \(N\) is the total number of documents being
+assessed and \(n_t\) is the number of documents where the term \(t\)
+appears .
+
+~
+
+To calculate the \textbf{tf-idf} for the 2012 US presidential debate, we
+are simply attempting to find the important words (after adjustment for
+frequency/rarity of use) mentioned by each of the speakers in the
+debates dialogues. Put in another way, we are looking for words
+frequently used by a speaker, but not all the speakers. We use the
+\texttt{bind\_tf\_idf} function to compute the tf-idf.
+
+~
+
+Before we do that, we need to have our data in a tidy format. Again, we
+use the \texttt{unnest\_tokens} function in the tidytext package, which
+takes in a dataframe of the debate data and tokenize the dialogue,
+splitting each sentence in separate words. The two arguments for the
+\texttt{unnest\_tokens} function are column names; the output column
+(word in this case) and the input column (dialogue in this case). We
+then use dplyr to remove stop words with an anti\_join(). stop words are
+common english words such as ``the'', ``of'', ``to'', etc, which are not
+useful for our analysis.
+
+Create tidy text data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidytext)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+
+\NormalTok{words <-}\StringTok{ }\NormalTok{debateData }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{unnest_tokens}\NormalTok{(word,dialogue) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{anti_join}\NormalTok{(stop_words) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{count}\NormalTok{(person,word) }
+\end{Highlighting}
+\end{Shaded}
+
+This is followed by the \texttt{bind\_tf\_idf} function from the
+\texttt{tidytext} package, which takes in the tidy data containing 3
+columns; First column (person) contains the debate speakers, the second
+column (word) contains the tokens and the last column (counts) is the no
+of times each speaker used a particular word, that is ``n'' in this
+case.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words <-}\StringTok{ }\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{bind_tf_idf}\NormalTok{(word,person,n)}
+\end{Highlighting}
+\end{Shaded}
+
+Lets look at the idf and tf-idf statistics:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,220 x 6
+##    person  word           n      tf   idf   tf_idf
+##    <chr>   <chr>      <int>   <dbl> <dbl>    <dbl>
+##  1 CROWLEY absolutely     2 0.00413 0.693 0.00286 
+##  2 CROWLEY act            2 0.00413 0.405 0.00168 
+##  3 CROWLEY add            2 0.00413 0.405 0.00168 
+##  4 CROWLEY address        2 0.00413 1.79  0.00740 
+##  5 CROWLEY agreed         1 0.00207 0.693 0.00143 
+##  6 CROWLEY agreement      1 0.00207 0.693 0.00143 
+##  7 CROWLEY ahead          2 0.00413 1.10  0.00454 
+##  8 CROWLEY ak             1 0.00207 0.693 0.00143 
+##  9 CROWLEY american       1 0.00207 0.182 0.000377
+## 10 CROWLEY answer         1 0.00207 0.405 0.000838
+## # ... with 4,210 more rows
+\end{verbatim}
+
+We expect that the inverse document frequency (\textbf{idf}) value, and
+thus the \textbf{tf-idf} value, will be very low for common words; that
+is words commonly mentioned by all the speakers. In contrast, the
+\textbf{tf-idf} value will be higher for words that are unique to a
+speaker and not commonly used by all the speakers.
+
+~
+
+Let us extract and sort list of words with high \textbf{tf-idf}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(tf_idf))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,220 x 6
+##    person    word              n      tf   idf tf_idf
+##    <chr>     <chr>         <int>   <dbl> <dbl>  <dbl>
+##  1 QUESTION  department        3 0.0138  1.79  0.0248
+##  2 LEHRER    minute            5 0.0213  1.10  0.0234
+##  3 SCHIEFFER segment           9 0.0203  1.10  0.0223
+##  4 LEHRER    federal           6 0.0255  0.693 0.0177
+##  5 LEHRER    minutes          10 0.0426  0.405 0.0173
+##  6 QUESTION  chu               2 0.00922 1.79  0.0165
+##  7 QUESTION  misperception     2 0.00922 1.79  0.0165
+##  8 QUESTION  stated            2 0.00922 1.79  0.0165
+##  9 LEHRER    improve           2 0.00851 1.79  0.0152
+## 10 LEHRER    views             2 0.00851 1.79  0.0152
+## # ... with 4,210 more rows
+\end{verbatim}
+
+and those with low \textbf{tf-idf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(tf_idf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4,220 x 6
+##    person   word          n      tf   idf tf_idf
+##    <chr>    <chr>     <int>   <dbl> <dbl>  <dbl>
+##  1 CROWLEY  governor     33 0.0682      0      0
+##  2 CROWLEY  president    33 0.0682      0      0
+##  3 CROWLEY  question     23 0.0475      0      0
+##  4 LEHRER   governor     14 0.0596      0      0
+##  5 LEHRER   president     9 0.0383      0      0
+##  6 LEHRER   question      2 0.00851     0      0
+##  7 OBAMA    governor    122 0.0223      0      0
+##  8 OBAMA    president    21 0.00383     0      0
+##  9 OBAMA    question      9 0.00164     0      0
+## 10 QUESTION governor      4 0.0184      0      0
+## # ... with 4,210 more rows
+\end{verbatim}
+
+Here, the \textbf{tf-idf} values are zero for these very common words,
+which indicates that they are words that are commonly used in the
+debates by all the speakers. The list is quite realatable. Obama was the
+incumbent president during the 2012 presidential debate while Romney was
+the governor of Massachusetts from 2003 to 2007. It is thus expected
+that during the debate they will be commonly referred to with these
+titles (i.e.~President for Obama and Governor for Romney) by all the
+speakers, including the candidates themselves. The words with high
+tf-idf values on the other hand are unique words to the particular
+speaker. For example, on the list are lot of words from the audience.
+
+~
+
+We now create a plot of top 10 words with the highest tf-idf index for
+each speaker.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(tf_idf)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{word =} \KeywordTok{factor}\NormalTok{(word, }\DataTypeTok{levels =} \KeywordTok{rev}\NormalTok{(}\KeywordTok{unique}\NormalTok{(word)))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(person) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{top_n}\NormalTok{(}\DecValTok{10}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{ungroup }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(word, tf_idf, }\DataTypeTok{fill =}\NormalTok{ person)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{(}\DataTypeTok{show.legend =} \OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{y =} \StringTok{"tf_idf index"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Highest tf_idf Words in the 2012 US Presidential Debate"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{person, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{scales =} \StringTok{"free"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{coord_flip}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{), }
+        \DataTypeTok{axis.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{color =} \StringTok{"black"}\NormalTok{),}
+        \DataTypeTok{title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{size =} \DecValTok{12}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+~
+
+Looking at the candidates, there does not seem to be a major difference
+between them. ``jobs'' related dialogues seem to be one of their most
+important campaign/debate strategy. It could be that Obama was
+emphasizing on how much jobs he created during his first term, while
+Romney also advertising his jobs creation records when he was a
+governor. The ``million'' with high tf-idx index under Romney refer to
+the millions of jobs he created as governor. So basically ``jobs'' was
+the center point of the candidate's message. We can also see that
+Schieffer questions were focused on global politics and security
+concerns in Asia, with words like pakistan, afghanistan, war and Iran
+coming up top.
+
+~
+
+\hypertarget{zipfs-law}{%
+\subsubsection{Zipf's law}\label{zipfs-law}}
+
+We now test our debate data for Zipf's law. Again we need to have our
+debate data in a tidy data structure, but this time, we are not removing
+the stopwords as they are important to illustrate Zipf's law. As usual,
+we use the unnest\_tokens() to tokenize the dialogue and create a new
+column (word) containing the tokenized words, and count the number of
+times each word is used by the speakers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words <-}\StringTok{ }\NormalTok{debateData }\OperatorTok{%>%}\StringTok{  }
+\StringTok{  }\KeywordTok{unnest_tokens}\NormalTok{(word, dialogue) }\OperatorTok{%>%}\StringTok{  }
+\StringTok{  }\KeywordTok{count}\NormalTok{(person,word, }\DataTypeTok{sort =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{ungroup}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+This is followed by group\_by() and summarize() to calculate the total
+words spoken by each speakers during the debate (i.e.~person in our
+case)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{total_words <-}\StringTok{ }\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(person) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{total =} \KeywordTok{sum}\NormalTok{(n))}
+\end{Highlighting}
+\end{Shaded}
+
+Using left\_join() in the dplyr package, we join out tidy text data
+(words) with the total\_words data. With this, for every word, we have
+the `n' number of times the particular word is used by a speaker and the
+`total' words used by that speaker.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{words <-}\StringTok{ }\KeywordTok{left_join}\NormalTok{(words, total_words)}
+\end{Highlighting}
+\end{Shaded}
+
+Then, the term frequency (or tf) can be easily calculated as
+\((\frac{n}{total})\). With our data already sorted in decreasing order
+of tf, the rank can be obtained as the row number.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{freq_by_rank <-}\StringTok{ }\NormalTok{words }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(person) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{rank =} \KeywordTok{row_number}\NormalTok{(),}
+         \StringTok{`}\DataTypeTok{term frequency}\StringTok{`}\NormalTok{ =}\StringTok{ }\NormalTok{n}\OperatorTok{/}\NormalTok{total)}
+\end{Highlighting}
+\end{Shaded}
+
+The rank column gives the rank of each word within the frequency table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{freq_by_rank}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5,776 x 6
+## # Groups:   person [6]
+##    person word      n total  rank `term frequency`
+##    <chr>  <chr> <int> <int> <int>            <dbl>
+##  1 ROMNEY the     913 19924     1           0.0458
+##  2 ROMNEY to      812 19924     2           0.0408
+##  3 OBAMA  the     700 18319     1           0.0382
+##  4 OBAMA  to      686 18319     2           0.0374
+##  5 ROMNEY and     671 19924     3           0.0337
+##  6 OBAMA  and     590 18319     3           0.0322
+##  7 OBAMA  that    574 18319     4           0.0313
+##  8 ROMNEY that    460 19924     4           0.0231
+##  9 ROMNEY a       427 19924     5           0.0214
+## 10 ROMNEY of      422 19924     6           0.0212
+## # ... with 5,766 more rows
+\end{verbatim}
+
+A quick glance of the above table shows that very frequently used
+english words, such as ``the'', ``to'', ``that'', etc have very low rank
+as predicted by Zipf's law. As stated earlier, Zipf's law is best
+observed by plotting the data on a log-log graph, with the axes being
+log (rank order) and log (frequency).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{freq_by_rank }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(rank, }\StringTok{`}\DataTypeTok{term frequency}\StringTok{`}\NormalTok{, }\DataTypeTok{color =}\NormalTok{ person)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{size =} \FloatTok{1.1}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{show.legend =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_y_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-24-1} \end{center}
+
+We can see that the plot is approximately linear on the log-log graph,
+and the relationship between rank and the term frequency have a negative
+slope. Although, there are slight deviations at the high rank and low
+rank range. This is however not unusual and common in most
+representation of Zipf's law, e.g.~(Adamic.2000).
+
+~
+
+Lets now fit a linear regression model. We however need to adjust for
+the different lengths of dialogues in the debate data, otherwise, long
+dialogues would weighted higher than shorter ones. We are therefore
+going to subset the data to rank smaller than 500 and greater than 10.
+We use the function lm() to fit the linear models.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rank_subset <-}\StringTok{ }\NormalTok{freq_by_rank }\OperatorTok{%>%}
+\KeywordTok{filter}\NormalTok{(rank }\OperatorTok{<}\StringTok{ }\DecValTok{500}\NormalTok{,rank }\OperatorTok{>}\StringTok{ }\DecValTok{10}\NormalTok{)}
+\KeywordTok{lm}\NormalTok{(}\KeywordTok{log10}\NormalTok{(}\StringTok{`}\DataTypeTok{term frequency}\StringTok{`}\NormalTok{) }\OperatorTok{~}\StringTok{ }\KeywordTok{log10}\NormalTok{(rank), }\DataTypeTok{data =}\NormalTok{ rank_subset)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log10(`term frequency`) ~ log10(rank), data = rank_subset)
+## 
+## Coefficients:
+## (Intercept)  log10(rank)  
+##     -0.7650      -0.9793
+\end{verbatim}
+
+As explained earlier, to test for Zipf's law, we hope to get a slope
+close to -1 on the log-log graph, which is what we have here. We can now
+use the function geom\_abline() to add the regression line to our graph
+using values of intercept and slope from our linear regression model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{freq_by_rank }\OperatorTok{%>%}
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(rank, }\StringTok{`}\DataTypeTok{term frequency}\StringTok{`}\NormalTok{, }\DataTypeTok{color =}\NormalTok{ person)) }\OperatorTok{+}
+\KeywordTok{geom_abline}\NormalTok{(}\DataTypeTok{intercept =} \FloatTok{-0.8}\NormalTok{, }\DataTypeTok{slope =} \FloatTok{-1.0}\NormalTok{, }\DataTypeTok{color =} \StringTok{"gray50"}\NormalTok{, }\DataTypeTok{linetype =} \DecValTok{2}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{size =} \FloatTok{1.1}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.8}\NormalTok{, }\DataTypeTok{show.legend =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{scale_x_log10}\NormalTok{() }\OperatorTok{+}
+\KeywordTok{scale_y_log10}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{../TidytextPlot_vignette_files/figure-latex/unnamed-chunk-26-1} \end{center}
+
+It can be seen clearly that our data fit the classic version of Zipf's
+law - the log(freq) vs log(rank) graph is approximately fitted by a
+straight line of slope -1. One other analysis we can infer is the
+similarity of words used by Obama and Romney, especially within the
+middle section of the rank range, as we can see that the trend of Obama
+and Romney lines mimic each other, which is distinct from the other
+speakers (person)
+
+\hypertarget{references}{%
+\subsubsection{References}\label{references}}
+
+1.Wickham, H., 2014. Tidy data. Journal of Statistical Software, 59(10),
+pp.1-23.\\
+2.Clauset, A., Shalizi, C.R. and Newman, M.E., 2009. Power-law
+distributions in empirical data. SIAM review, 51(4), pp.661-703.\\
+3.Li, W.; Miramontes, P.; Cocho, G. Fitting Ranked Linguistic Data with
+Two-Parameter Functions. Entropy 2010, 12, 1743-1764.\\
+4.Goldstein, M.L., Morris, S.A. and Yen, G.G., 2004. Problems with
+fitting to the power-law distribution. The European Physical Journal
+B-Condensed Matter and Complex Systems, 41(2), pp.255-258.\\
+5.White, E.P., Enquist, B.J. and Green, J.L., 2008. On estimating the
+exponent of power‐law frequency distributions. Ecology, 89(4),
+pp.905-912.\\
+6.Adamic, L.A., 2000. Zipf, power-laws, and pareto-a ranking tutorial.
+Xerox Palo Alto Research Center, Palo Alto, CA, \url{http://ginger}.
+hpl. hp. com/shl/papers/ranking/ranking.\\
+
+\end{document}

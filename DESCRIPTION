@@ -1,0 +1,23 @@
+Package: TidytextPlot
+Title: A Package to plot change in proportion of given words over time.
+Version: 1.0.0.11
+Authors@R: 
+    person(given = "Sewedo",
+           family = "Todowede",
+           role = c("aut", "cre"),
+           email = "todowede@gmail.com")
+Description: The package transfrom a dataframe into a tidy text data structure and produces a plot showing how the proportion of given words changes over time.
+License: GPL-2 | GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: dplyr,
+    ggplot2,
+    scales,
+    tidytext
+Depends: 
+    R (>= 2.10)
