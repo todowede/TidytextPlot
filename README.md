@@ -8,7 +8,7 @@ R package to transform a dataframe into tidy data structure and plot a graph of 
 Clone this repository and extract into your computer maintaining the same file structure.  
 ```https://github.com/todowede/TidytextPlot```
 
-Open TidytextPlot.Rproj in Rustudio.
+Open ```TidytextPlot.Rproj``` in Rustudio.
 
 Then ```devtools``` is needed to load your package using the code:
 ```
@@ -16,8 +16,18 @@ library(devtools)
 load_all()
 install()
 ```
+Or,
 
-Next, copy your `.env.example` file as `.env` and configure your GitHub username.
+In RStudio, start a new Project:
+
+File > New Project > Version Control > Git. In “Repository URL”, paste the URL of your new GitHub repository. It will be something like this https://github.com/jennybc/myrepo.git.
+        Do you NOT see an option to get the Project from Version Control? Restart RStudio and try again. Still no luck? Go to chapter 13 for tips on how to help RStudio find Git.
+    Accept the default project directory name, e.g. myrepo, which coincides with the GitHub repo name.
+    Take charge of – or at least notice! – where the Project will be saved locally. A common rookie mistake is to have no idea where you are saving files or what your working directory is. Pay attention. Be intentional. Personally, I would do this in ~/tmp.
+    I suggest you check “Open in new session”, as that’s what you’ll usually do in real life.
+    Click “Create Project”.
+
+You should find yourself in a new local RStudio Project that represents the new test repo we just created on GitHub. This should download the README.md file from GitHub. Look in RStudio’s file browser pane for the README.md file.
 
 ```
 GITHUB_PROFILE=your-github-username
